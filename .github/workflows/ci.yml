@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Lint · Types · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Types
+        run: npm run typecheck
+
+      # Aucun secret n'est fourni : la validation des variables
+      # d'environnement est paresseuse, le build doit donc passer sans elles.
+      - name: Build
+        run: npm run build
+
+  database:
+    name: Migrations · RLS
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      PGURL: postgres://postgres:postgres@localhost:5432/postgres
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Reproduire l'environnement Supabase
+        run: psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/_supabase-shim.sql
+
+      - name: Appliquer les migrations
+        run: psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/0001_init.sql
+
+      - name: Vérifier l'idempotence
+        run: psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/0001_init.sql
+
+      - name: Vérifier l'isolation RLS
+        run: psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/rls.sql
