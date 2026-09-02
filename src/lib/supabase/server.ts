@@ -13,9 +13,13 @@ import { publicEnv } from "@/lib/env";
  * cookies : la RLS s'applique donc normalement.
  */
 export async function createClient() {
+  // `cookies()` d'abord, volontairement : c'est cet appel qui signale à Next.js
+  // que la page est dynamique. Valider l'environnement avant lui ferait échouer
+  // le prérendu au build — avec l'erreur de configuration au lieu du bascu-
+  // lement en rendu dynamique.
+  const cookieStore = await cookies();
   const { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } =
     publicEnv();
-  const cookieStore = await cookies();
 
   return createServerClient<Database>(
     NEXT_PUBLIC_SUPABASE_URL,
