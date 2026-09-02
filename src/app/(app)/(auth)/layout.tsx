@@ -10,7 +10,7 @@ import Link from "next/link";
  */
 export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6 py-10">
+    <main className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-10">
       <div className="w-full max-w-sm space-y-6">
         <Link
           href="/"

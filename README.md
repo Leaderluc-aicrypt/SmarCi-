@@ -2,9 +2,9 @@
 
 Copilote IA spécialisé dans l'importation pour la zone FCFA.
 
-> **État : Phase 3 — interface, en cours.**
-> Inscription, connexion, accueil et navigation sont en place. L'interface de
-> conversation est la prochaine étape, l'IA arrive en Phase 4 et le moteur de
+> **État : Phase 3 terminée — interface.**
+> Inscription, connexion, accueil, navigation et fil de conversation sont en
+> place. Le copilote ne répond pas encore : l'IA arrive en Phase 4, le moteur de
 > calcul en Phase 5.
 
 Le périmètre et les décisions produit sont fixés par le plan MVP
@@ -86,6 +86,10 @@ l'ordre en un seul bloc à coller.
 Les migrations et l'isolation RLS sont testées à chaque push par la CI, sur un
 PostgreSQL jetable. Pour reproduire en local :
 voir [`docs/verification-locale.md`](docs/verification-locale.md).
+
+L'interface, elle, se vérifie dans un vrai navigateur — voir
+[`docs/verification-interface.md`](docs/verification-interface.md). Ces
+contrôles ne tournent pas en CI : ils demandent Playwright et un navigateur.
 
 ---
 
@@ -180,6 +184,9 @@ src/
     globals.css            Palette night/paper/gold/teal + jetons shadcn
   components/
     auth/                  Formulaires et retours d'erreur
+    conversation/          Fil de discussion et zone de saisie
+    home/                  Hub de l'accueil
+    layout/                Navigation basse
     ui/                    Primitives shadcn/ui (écrites à la main)
   lib/
     env.ts                 Validation des variables (zod, paresseuse)
@@ -191,6 +198,10 @@ src/
       messages.ts          Traduction des erreurs Supabase
       redirects.ts         Garde contre les redirections ouvertes
       session.ts           `getUser` / `requireUser`
+    conversation/
+      actions.ts           Server Action : enregistrement d'un message
+      queries.ts           Lecture de la conversation et des messages
+      schemas.ts           Validation de la saisie
     supabase/
       client.ts            Client navigateur
       server.ts            Client Server Components / Route Handlers
@@ -202,6 +213,7 @@ supabase/
   tests/                   Vérification RLS + shim Supabase
 
 tests/                     Tests unitaires
+tests/e2e/                 Vérifications navigateur (hors CI)
 scripts/                   Génération des icônes, impression du schéma
 docs/                      Procédures
 ```

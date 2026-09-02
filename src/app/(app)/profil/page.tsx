@@ -26,7 +26,7 @@ export default async function ProfilPage() {
     .maybeSingle();
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-8 px-6 py-12">
+    <main className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col justify-center gap-8 overflow-y-auto px-6 py-12">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight text-card-foreground">
           Profil

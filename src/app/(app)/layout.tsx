@@ -9,7 +9,9 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 export default function AppLayout({ children }: LayoutProps<"/">) {
   return (
     <div
-      className="flex min-h-dvh flex-col"
+      // Hauteur bornée : le fil de conversation défile à l'intérieur, la
+      // navigation basse reste visible.
+      className="flex h-dvh flex-col overflow-hidden"
       style={{ background: "var(--app-gradient)" }}
     >
       {children}

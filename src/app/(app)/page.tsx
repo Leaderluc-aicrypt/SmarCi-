@@ -12,7 +12,7 @@ export default async function Home() {
   const user = await getUser();
 
   return (
-    <main className="flex flex-1 flex-col px-5 pt-8 pb-4">
+    <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-8 pb-4">
       <header className="mb-2">
         <p className="font-display text-lg leading-none font-bold tracking-tight text-[var(--nav-active)]">
           SmarCi
