@@ -32,6 +32,9 @@ jobs:
       - name: Types
         run: npm run typecheck
 
+      - name: Tests unitaires
+        run: npm test
+
       # Aucun secret n'est fourni : la validation des variables
       # d'environnement est paresseuse, le build doit donc passer sans elles.
       - name: Build
