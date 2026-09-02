@@ -28,7 +28,7 @@ export function FormMessage({
         "rounded-md border px-3 py-2 text-sm",
         tone === "error"
           ? "border-destructive/40 bg-destructive/10 text-destructive"
-          : "border-teal-500/40 bg-teal-500/10 text-teal-300",
+          : "border-accent/40 bg-accent/10 text-accent",
       )}
     >
       {message}

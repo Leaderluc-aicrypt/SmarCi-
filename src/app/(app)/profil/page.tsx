@@ -28,7 +28,7 @@ export default async function ProfilPage() {
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-8 px-6 py-12">
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight text-paper-100">
+        <h1 className="text-2xl font-semibold tracking-tight text-card-foreground">
           Profil
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -40,25 +40,25 @@ export default async function ProfilPage() {
         <dl className="divide-y divide-border rounded-lg border border-border bg-card">
           <div className="flex items-center justify-between gap-4 px-4 py-3">
             <dt className="text-sm text-muted-foreground">Nom</dt>
-            <dd className="text-sm text-paper-100">
+            <dd className="text-sm text-card-foreground">
               {profile.full_name ?? "—"}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-4 px-4 py-3">
             <dt className="text-sm text-muted-foreground">E-mail</dt>
-            <dd className="text-sm text-paper-100">
+            <dd className="text-sm text-card-foreground">
               {profile.email ?? user.email}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-4 px-4 py-3">
             <dt className="text-sm text-muted-foreground">Niveau</dt>
-            <dd className="text-sm text-paper-100">
+            <dd className="text-sm text-card-foreground">
               {NIVEAUX[profile.experience_level]}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-4 px-4 py-3">
             <dt className="text-sm text-muted-foreground">Compte créé le</dt>
-            <dd className="text-sm text-paper-100">
+            <dd className="text-sm text-card-foreground">
               {new Date(profile.created_at).toLocaleDateString("fr-FR", {
                 day: "2-digit",
                 month: "long",

@@ -15,7 +15,7 @@ export default async function InscriptionPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
-        <h1 className="text-xl font-semibold text-paper-100">
+        <h1 className="text-xl font-semibold text-card-foreground">
           Créer un compte
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -29,7 +29,7 @@ export default async function InscriptionPage() {
         Vous avez déjà un compte ?{" "}
         <Link
           href="/connexion"
-          className="text-gold-400 underline-offset-4 hover:underline"
+          className="text-link underline underline-offset-4"
         >
           Se connecter
         </Link>

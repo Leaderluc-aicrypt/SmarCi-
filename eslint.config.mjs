@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Maquette de référence : archivée telle que fournie, jamais exécutée.
+    "docs/maquettes/**",
   ]),
 ]);
 

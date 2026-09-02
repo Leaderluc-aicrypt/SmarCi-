@@ -4,8 +4,11 @@ import Link from "next/link";
 /** Cadre commun aux écrans de connexion et d'inscription. */
 export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6 py-12">
-      <div className="w-full max-w-sm space-y-8">
+    <main
+      className="flex min-h-dvh flex-1 flex-col items-center justify-center px-6 py-12"
+      style={{ background: "var(--app-gradient)" }}
+    >
+      <div className="w-full max-w-sm space-y-6">
         <Link
           href="/"
           className="flex flex-col items-center gap-3 text-center"
@@ -18,12 +21,16 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
             height={56}
             className="rounded-xl"
           />
-          <span className="text-2xl font-semibold tracking-tight text-paper-100">
+          <span className="font-display text-2xl font-bold tracking-tight text-[var(--nav-active)]">
             SmarCi
           </span>
         </Link>
 
-        {children}
+        {/* Surface opaque : sur un fond en dégradé, le texte posé directement
+            dessus tombe sous le seuil de contraste. */}
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-lg">
+          {children}
+        </div>
       </div>
     </main>
   );

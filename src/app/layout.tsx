@@ -1,15 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Roboto_Slab } from "next/font/google";
+
+import { THEME, themeClass } from "@/lib/theme";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Réservée aux titres et au bouton central, comme dans la maquette.
+const robotoSlab = Roboto_Slab({
+  variable: "--font-roboto-slab",
+  weight: ["700"],
   subsets: ["latin"],
 });
 
@@ -47,8 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      // Interface sombre par défaut (plan MVP §6.1).
-      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${themeClass[THEME]} ${inter.variable} ${robotoSlab.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>

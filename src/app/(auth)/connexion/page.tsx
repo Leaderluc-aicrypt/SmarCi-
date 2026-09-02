@@ -25,7 +25,9 @@ export default async function ConnexionPage({
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
-        <h1 className="text-xl font-semibold text-paper-100">Se connecter</h1>
+        <h1 className="text-xl font-semibold text-card-foreground">
+          Se connecter
+        </h1>
         <p className="text-sm text-muted-foreground">
           Retrouvez vos conversations et vos calculs.
         </p>
@@ -44,7 +46,7 @@ export default async function ConnexionPage({
         Pas encore de compte ?{" "}
         <Link
           href="/inscription"
-          className="text-gold-400 underline-offset-4 hover:underline"
+          className="text-link underline underline-offset-4"
         >
           Créer un compte
         </Link>

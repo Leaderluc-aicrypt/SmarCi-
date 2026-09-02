@@ -35,6 +35,15 @@
   --color-teal-500: #199484;
   --color-teal-600: #12756a;
   --color-teal-700: #0d5a52;
+
+  /* Palette « sky » de la maquette MVP : ciel, navy, or chaud. */
+  --color-sky-300: #8ad1f5;
+  --color-sky-500: #4fa3e0;
+  --color-navy-500: #1b3b6f;
+  --color-navy-700: #12294f;
+  --color-navy-300: #4e7093;
+  --color-sun-400: #f0c15c;
+  --color-sun-600: #c9971f;
 }
 
 /* ---------------------------------------------------------------------------
@@ -64,6 +73,60 @@
   --border: #e4decf;
   --input: #e4decf;
   --ring: #c99b24;
+}
+
+/* --- Thème « night » : le fond sombre du plan MVP §6.1 ------------------- */
+.theme-night {
+  --app-gradient: linear-gradient(180deg, #0f141c 0%, #05070b 100%);
+  --hub-from: #ddb84f;
+  --hub-to: #a87d18;
+  --hub-foreground: #05070b;
+  --hub-halo: rgba(221, 184, 79, 0.45);
+  --orbit: rgba(242, 238, 228, 0.18);
+  --waypoint: #151c26;
+  --waypoint-foreground: #ddb84f;
+  --nav-surface: #0a0e14;
+  --nav-active: #ddb84f;
+  --nav-muted: #a9a192;
+  --link: #ddb84f;
+}
+
+/* --- Thème « sky » : la palette de la maquette --------------------------- */
+.theme-sky {
+  --app-gradient: linear-gradient(180deg, #8ad1f5 0%, #4fa3e0 100%);
+  --hub-from: #f0c15c;
+  --hub-to: #c9971f;
+  --hub-foreground: #12294f;
+  --hub-halo: rgba(240, 193, 92, 0.45);
+  --orbit: rgba(27, 59, 111, 0.25);
+  --waypoint: #ffffff;
+  --waypoint-foreground: #1b3b6f;
+  --nav-surface: #ffffff;
+  --nav-active: #1b3b6f;
+  /* #6E93B8 de la maquette ne donnait que 3,22:1 sur blanc — sous le seuil
+     WCAG AA de 4,5:1. Assombri à 5,17:1. */
+  --nav-muted: #4e7093;
+  --link: #1b3b6f;
+
+  --background: #4fa3e0;
+  --foreground: #12294f;
+  --card: #ffffff;
+  --card-foreground: #12294f;
+  --popover: #ffffff;
+  --popover-foreground: #12294f;
+  --primary: #c9971f;
+  --primary-foreground: #ffffff;
+  --secondary: #eaf6ff;
+  --secondary-foreground: #1b3b6f;
+  --muted: #eaf6ff;
+  --muted-foreground: #12294f;
+  --accent: #1b3b6f;
+  --accent-foreground: #ffffff;
+  --destructive: #b3261e;
+  --destructive-foreground: #ffffff;
+  --border: rgba(27, 59, 111, 0.18);
+  --input: rgba(27, 59, 111, 0.28);
+  --ring: #1b3b6f;
 }
 
 .dark {
@@ -108,9 +171,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-link: var(--link);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-roboto-slab), Georgia, serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -119,6 +183,19 @@
 }
 
 @layer base {
+  /* Halo du bouton central, neutralisé si l'utilisateur limite les animations. */
+  @keyframes hub-pulse {
+    0% {
+      box-shadow: 0 0 0 0 var(--hub-halo);
+    }
+    70% {
+      box-shadow: 0 0 0 24px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
   * {
     border-color: var(--color-border);
   }
