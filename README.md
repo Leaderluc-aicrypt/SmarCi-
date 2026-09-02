@@ -2,10 +2,9 @@
 
 Copilote IA spécialisé dans l'importation pour la zone FCFA.
 
-> **État : Phase 1 — socle technique.**
-> Aucune fonctionnalité utilisateur n'est encore disponible. L'authentification
-> arrive en Phase 2, la conversation en Phase 3, l'IA en Phase 4 et le moteur de
-> calcul en Phase 5.
+> **État : Phase 2 — authentification.**
+> Inscription, connexion et déconnexion fonctionnent. La conversation arrive en
+> Phase 3, l'IA en Phase 4 et le moteur de calcul en Phase 5.
 
 Le périmètre et les décisions produit sont fixés par le plan MVP
 (`SmarCi_Plan_Complet_MVP_1.md`, document de référence).
@@ -50,6 +49,7 @@ Toutes sont documentées dans `.env.example`.
 | ------------------------------- | ------------------ | --------------------- |
 | `NEXT_PUBLIC_SUPABASE_URL`      | oui                | oui                   |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | oui                | oui                   |
+| `NEXT_PUBLIC_SITE_URL`          | non (recommandée)  | oui                   |
 | `SUPABASE_SERVICE_ROLE_KEY`     | non                | **jamais**            |
 | `OPENAI_API_KEY`                | non (Phase 4)      | **jamais**            |
 
@@ -84,6 +84,28 @@ l'ordre en un seul bloc à coller.
 Les migrations et l'isolation RLS sont testées à chaque push par la CI, sur un
 PostgreSQL jetable. Pour reproduire en local :
 voir [`docs/verification-locale.md`](docs/verification-locale.md).
+
+---
+
+## Authentification
+
+Le code est prêt, mais le projet Supabase doit être réglé : Site URL, Redirect
+URLs et politique de confirmation par e-mail. La procédure complète est dans
+[`docs/configuration-supabase.md`](docs/configuration-supabase.md).
+
+| Route | Accès |
+| ------------------ | ------------------------------------------------- |
+| `/` | Public |
+| `/inscription` | Public — redirige vers `/profil` si déjà connecté |
+| `/connexion` | Public — redirige vers `/profil` si déjà connecté |
+| `/auth/confirm` | Public — cible des liens de confirmation |
+| `/profil` | **Connecté** |
+
+La protection est posée à deux endroits, volontairement. Le proxy
+(`src/proxy.ts`) redirige tôt pour éviter d'afficher une page vide ; c'est une
+mesure de confort, que la documentation Next.js décrit comme optimiste. La
+vérification qui fait autorité est `requireUser()` dans la page elle-même, qui
+valide le jeton auprès de Supabase à chaque rendu.
 
 ---
 
@@ -128,6 +150,7 @@ de secret.
 | `npm run build`        | Build de production                             |
 | `npm run lint`         | ESLint                                          |
 | `npm run typecheck`    | TypeScript, sans émission                       |
+| `npm test`             | Tests unitaires (`node --test`, sans dépendance) |
 | `npm run format`       | Prettier                                        |
 | `npm run db:print`     | Concatène les migrations pour le SQL Editor     |
 | `npm run icons`        | Régénère les icônes PWA de substitution         |
@@ -139,15 +162,27 @@ de secret.
 ```
 src/
   app/
+    (auth)/                Écrans de connexion et d'inscription
+    auth/confirm/route.ts  Cible des liens de confirmation par e-mail
     api/health/route.ts    Sonde de santé (env + base)
+    profil/page.tsx        Page protégée
     layout.tsx             Métadonnées, PWA, thème sombre
     manifest.ts            Manifeste PWA (/manifest.webmanifest)
     page.tsx               Accueil provisoire
     globals.css            Palette night/paper/gold/teal + jetons shadcn
+  components/
+    auth/                  Formulaires et retours d'erreur
+    ui/                    Primitives shadcn/ui (écrites à la main)
   lib/
     env.ts                 Validation des variables (zod, paresseuse)
     database.types.ts      Types du schéma
     utils.ts               Helper `cn`
+    auth/
+      actions.ts           Server Actions : inscription, connexion, déconnexion
+      schemas.ts           Validation des formulaires
+      messages.ts          Traduction des erreurs Supabase
+      redirects.ts         Garde contre les redirections ouvertes
+      session.ts           `getUser` / `requireUser`
     supabase/
       client.ts            Client navigateur
       server.ts            Client Server Components / Route Handlers
@@ -158,6 +193,7 @@ supabase/
   migrations/              Source de vérité du schéma
   tests/                   Vérification RLS + shim Supabase
 
+tests/                     Tests unitaires
 scripts/                   Génération des icônes, impression du schéma
 docs/                      Procédures
 ```

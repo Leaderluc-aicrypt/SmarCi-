@@ -17,6 +17,12 @@ validation explicite.
 - **`supabase/migrations/` est l'unique source de vérité du schéma.** Pas de
   copie consolidée versionnée ; utiliser `npm run db:print`.
 - Next.js 16 : le middleware s'appelle `proxy.ts`, et `cookies()` est asynchrone.
+- **Un fichier `"use server"` n'exporte que des fonctions async.** Y placer une
+  constante ou un type passe le build et le typage, puis casse le rendu à
+  l'exécution : les états initiaux vivent dans `lib/auth/form-state.ts`.
+- **Appeler `cookies()` avant toute validation** dans les clients serveur : c'est
+  ce qui signale à Next.js que la page est dynamique. L'inverse fait échouer le
+  prérendu au build.
 
 ## Avant de pousser
 
