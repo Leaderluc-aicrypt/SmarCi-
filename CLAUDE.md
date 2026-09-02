@@ -16,6 +16,12 @@ validation explicite.
   contourne la RLS : usage serveur uniquement.
 - **`supabase/migrations/` est l'unique source de vérité du schéma.** Pas de
   copie consolidée versionnée ; utiliser `npm run db:print`.
+- **Aucune couleur en dur dans les composants.** Tout passe par les jetons
+  sémantiques de `globals.css` (`--primary`, `--card`, `--app-gradient`…). Une
+  classe comme `text-gold-400` casse au premier changement de palette.
+- **Toute couleur de texte doit passer WCAG AA** (4,5:1, ou 3:1 en grande
+  taille). Les utilisateurs consultent l'application sur téléphone, souvent
+  en extérieur.
 - Next.js 16 : le middleware s'appelle `proxy.ts`, et `cookies()` est asynchrone.
 - **Un fichier `"use server"` n'exporte que des fonctions async.** Y placer une
   constante ou un type passe le build et le typage, puis casse le rendu à

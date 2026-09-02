@@ -2,9 +2,10 @@
 
 Copilote IA spécialisé dans l'importation pour la zone FCFA.
 
-> **État : Phase 2 — authentification.**
-> Inscription, connexion et déconnexion fonctionnent. La conversation arrive en
-> Phase 3, l'IA en Phase 4 et le moteur de calcul en Phase 5.
+> **État : Phase 3 — interface, en cours.**
+> Inscription, connexion, accueil et navigation sont en place. L'interface de
+> conversation est la prochaine étape, l'IA arrive en Phase 4 et le moteur de
+> calcul en Phase 5.
 
 Le périmètre et les décisions produit sont fixés par le plan MVP
 (`SmarCi_Plan_Complet_MVP_1.md`, document de référence).
@@ -22,9 +23,10 @@ Le périmètre et les décisions produit sont fixés par le plan MVP
 | IA          | API OpenAI *(à partir de la Phase 4)*    |
 | Hébergement | Vercel                                   |
 
-**Écart assumé au document de référence** : le plan MVP (§3.2) spécifie
-Next.js 14. Cette version n'est plus maintenue ; le projet est bâti sur la
-dernière ligne stable. L'architecture décrite au §3.2 est inchangée.
+**Écarts assumés au document de référence** : Next.js 16 au lieu de 14
+(version non maintenue), et palette claire au lieu du fond sombre du §6.1.
+Ces arbitrages et leurs raisons sont consignés dans
+[`docs/decisions.md`](docs/decisions.md).
 
 ---
 
@@ -99,7 +101,13 @@ URLs et politique de confirmation par e-mail. La procédure complète est dans
 | `/inscription` | Public — redirige vers `/profil` si déjà connecté |
 | `/connexion` | Public — redirige vers `/profil` si déjà connecté |
 | `/auth/confirm` | Public — cible des liens de confirmation |
+| `/conversation` | **Connecté** |
 | `/profil` | **Connecté** |
+
+Connexion et inscription vivent dans la coquille de l'application : la
+navigation basse reste visible et l'entrée « Profil » y apparaît active.
+S'authentifier est une étape du parcours Profil, pas une sortie de
+l'application.
 
 La protection est posée à deux endroits, volontairement. Le proxy
 (`src/proxy.ts`) redirige tôt pour éviter d'afficher une page vide ; c'est une
@@ -202,10 +210,9 @@ docs/                      Procédures
 
 ## Points ouverts
 
-- **Maquette d'accueil** — `SmarCi_Maquette_Accueil.jsx` (plan MVP §6.2) n'a pas
-  été fournie. Nécessaire en Phase 3.
 - **Icônes PWA** — celles de `public/icons/` sont des substituts générés par
-  script. À remplacer par le logo définitif.
+  script (`npm run icons`). À remplacer par le logo définitif, idéalement à
+  fond transparent.
 - **Composants shadcn/ui** — les fondations sont posées (`components.json`,
   palette, helper `cn`). Les composants seront ajoutés au fur et à mesure via
   `npx shadcn@latest add <composant>`.

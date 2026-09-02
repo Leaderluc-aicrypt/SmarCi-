@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto_Slab } from "next/font/google";
 
-import { THEME, themeClass } from "@/lib/theme";
-
 import "./globals.css";
 
 const inter = Inter({
@@ -40,8 +38,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05070b",
-  colorScheme: "dark",
+  // Teinte haute du dégradé : la barre d'état du navigateur prolonge l'écran.
+  themeColor: "#8ad1f5",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -51,7 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${themeClass[THEME]} ${inter.variable} ${robotoSlab.variable} h-full antialiased`}
+      className={`${inter.variable} ${robotoSlab.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>

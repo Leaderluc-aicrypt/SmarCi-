@@ -3,9 +3,9 @@
  *
  *   node scripts/generate-icons.mjs
  *
- * Ce sont des PLACEHOLDERS : un disque doré évidé sur fond night. À remplacer
- * par le logo définitif dès qu'il est disponible — il suffit de déposer les
- * PNG aux mêmes chemins et de supprimer ce script.
+ * Ce sont des PLACEHOLDERS : un disque doré évidé sur fond navy, aux couleurs
+ * de la maquette. À remplacer par le logo définitif dès qu'il est disponible —
+ * il suffit de déposer les PNG aux mêmes chemins et de supprimer ce script.
  */
 import { deflateSync } from "node:zlib";
 import { writeFileSync, mkdirSync } from "node:fs";
@@ -15,8 +15,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "public", "icons");
 
-const NIGHT = [0x05, 0x07, 0x0b];
-const GOLD = [0xc9, 0x9b, 0x24];
+const NAVY = [0x1b, 0x3b, 0x6f];
+const SUN = [0xf0, 0xc1, 0x5c];
 
 const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
   let c = n;
@@ -47,7 +47,7 @@ function pixel(x, y, size) {
   const inner = size * 0.24;
   const dot = size * 0.1;
   const onRing = d <= outer && d >= inner;
-  return onRing || d <= dot ? GOLD : NIGHT;
+  return onRing || d <= dot ? SUN : NAVY;
 }
 
 function png(size) {

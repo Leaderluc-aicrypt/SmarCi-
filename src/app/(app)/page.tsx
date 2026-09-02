@@ -23,9 +23,10 @@ export default async function Home() {
       </header>
 
       <div className="flex flex-1 items-center justify-center">
-        {/* Sans session, le bouton mène à la connexion, qui redirigera ensuite
-            vers la conversation. */}
-        <Hub href={user ? "/conversation" : "/connexion?next=/conversation"} />
+        {/* Sans session, l'ouverture conduit à la création de compte, rattachée
+            au parcours Profil. Avec une session, elle mène droit au copilote —
+            l'utilisateur est reconnu d'une visite à l'autre. */}
+        <Hub href={user ? "/conversation" : "/inscription"} />
       </div>
     </main>
   );
