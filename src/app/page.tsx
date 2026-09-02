@@ -1,14 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import { buttonVariants } from "@/components/ui/button";
+import { getUser } from "@/lib/auth/session";
+import { cn } from "@/lib/utils";
 
 /**
- * Page d'accueil provisoire.
+ * Accueil provisoire.
  *
- * Sert uniquement à valider le socle technique (Phase 1) : elle prouve que le
- * déploiement, la palette et les polices fonctionnent. L'accueil définitif
- * — bouton central doré, navigation à trois entrées (plan MVP §6) — sera
- * construit en Phase 3, à partir de la maquette.
+ * L'accueil définitif — bouton central doré, navigation à trois entrées
+ * (plan MVP §6) — sera construit en Phase 3 à partir de la maquette. Cette
+ * page se contente d'orienter vers la connexion ou l'inscription.
  */
-export default function Home() {
+export default async function Home() {
+  const user = await getUser();
+
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-16 text-center">
       <Image
@@ -29,23 +35,37 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="rounded-lg border border-border bg-card px-5 py-4 text-sm text-muted-foreground">
-        <p>
-          <span className="font-medium text-gold-400">Phase 1</span> — socle
-          technique en place.
-        </p>
-        <p className="mt-1">
-          Authentification, conversation et moteur de calcul arrivent aux phases
-          suivantes.
-        </p>
-      </div>
+      {user ? (
+        <Link
+          href="/profil"
+          className={cn(buttonVariants({ size: "lg" }), "w-full max-w-xs")}
+        >
+          Accéder à mon profil
+        </Link>
+      ) : (
+        <div className="flex w-full max-w-xs flex-col gap-3">
+          <Link
+            href="/inscription"
+            className={cn(buttonVariants({ size: "lg" }), "w-full")}
+          >
+            Créer un compte
+          </Link>
+          <Link
+            href="/connexion"
+            className={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "w-full",
+            )}
+          >
+            Se connecter
+          </Link>
+        </div>
+      )}
 
-      <a
-        href="/api/health"
-        className="text-xs text-muted-foreground underline underline-offset-4 transition-colors hover:text-teal-400"
-      >
-        Vérifier l&apos;état du système
-      </a>
+      <p className="text-xs text-muted-foreground">
+        <span className="text-gold-400">Phase 2</span> — la conversation avec le
+        copilote arrive à la phase suivante.
+      </p>
     </main>
   );
 }
