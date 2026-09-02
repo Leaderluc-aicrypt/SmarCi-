@@ -1,0 +1,132 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   Palette de marque SmarCi (plan MVP §6.1) : night, paper, gold, teal.
+   Ces couleurs brutes ne sont pas utilisées directement dans les composants —
+   on passe par les jetons sémantiques définis plus bas.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-night-950: #05070b;
+  --color-night-900: #0a0e14;
+  --color-night-850: #0f141c;
+  --color-night-800: #151c26;
+  --color-night-700: #1f2833;
+  --color-night-600: #2c3745;
+  --color-night-500: #3d4a5c;
+
+  --color-paper-50: #faf8f3;
+  --color-paper-100: #f2eee4;
+  --color-paper-200: #e4decf;
+  --color-paper-300: #cfc7b4;
+  --color-paper-400: #a9a192;
+  --color-paper-500: #7e7869;
+
+  --color-gold-300: #ebd07a;
+  --color-gold-400: #ddb84f;
+  --color-gold-500: #c99b24;
+  --color-gold-600: #a87d18;
+  --color-gold-700: #7f5d12;
+
+  --color-teal-300: #6fd8cb;
+  --color-teal-400: #35b7a8;
+  --color-teal-500: #199484;
+  --color-teal-600: #12756a;
+  --color-teal-700: #0d5a52;
+}
+
+/* ---------------------------------------------------------------------------
+   Jetons sémantiques (convention shadcn/ui).
+   SmarCi est une interface sombre : `.dark` est le thème appliqué par défaut
+   sur <html>. Le jeu clair reste défini pour rester réversible.
+--------------------------------------------------------------------------- */
+:root {
+  --radius: 0.75rem;
+
+  --background: #faf8f3;
+  --foreground: #0a0e14;
+  --card: #ffffff;
+  --card-foreground: #0a0e14;
+  --popover: #ffffff;
+  --popover-foreground: #0a0e14;
+  --primary: #a87d18;
+  --primary-foreground: #faf8f3;
+  --secondary: #f2eee4;
+  --secondary-foreground: #151c26;
+  --muted: #f2eee4;
+  --muted-foreground: #7e7869;
+  --accent: #12756a;
+  --accent-foreground: #faf8f3;
+  --destructive: #b91c1c;
+  --destructive-foreground: #faf8f3;
+  --border: #e4decf;
+  --input: #e4decf;
+  --ring: #c99b24;
+}
+
+.dark {
+  --background: #05070b;
+  --foreground: #f2eee4;
+  --card: #0f141c;
+  --card-foreground: #f2eee4;
+  --popover: #0f141c;
+  --popover-foreground: #f2eee4;
+  --primary: #c99b24;
+  --primary-foreground: #05070b;
+  --secondary: #151c26;
+  --secondary-foreground: #f2eee4;
+  --muted: #151c26;
+  --muted-foreground: #a9a192;
+  --accent: #199484;
+  --accent-foreground: #05070b;
+  --destructive: #ef4444;
+  --destructive-foreground: #05070b;
+  --border: #1f2833;
+  --input: #1f2833;
+  --ring: #ddb84f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
